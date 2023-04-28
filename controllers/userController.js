@@ -36,4 +36,10 @@ module.exports = {
       .then(() => res.json({ message: 'User and associated apps deleted!' }))
       .catch((err) => res.status(500).json(err));
   },
+  updateUser(req, res) {
+    
+    User.findOneAndUpdate({ _id: req.params.userId }, req.body )
+    .then(() => res.json({ message: 'User and associated apps updated!' }))
+    .catch((err) => res.status(500).json(err));
+  }
 };
