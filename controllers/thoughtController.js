@@ -1,4 +1,4 @@
-const { Thought } = require('../models');
+const { Thought, User } = require('../models');
 const ObjectId = require('mongodb').ObjectId;
 
 module.exports = {
@@ -19,13 +19,43 @@ module.exports = {
       },
     createThought(req, res) {
         Thought.create(req.body)
-        .then((user) => res.json(user))
+        //.then((thought) => res.json(thought))
+            .then((thought) => {
+                User.findOneAndUpdate(
+
+                    { _id: req.body.userId },
+                    { $addToSet: { thoughts: ObjectId(thought._id) } },
+                    { new: true }
+                  )
+                  .then((user) =>
+                !thought
+                ? res
+                    .status(404)
+                    .json({ message: 'No user found with that ID :(' })
+                : res.json(thought)
+
+      )
+
+            })
         .catch((err) => res.status(500).json(err));
     },
 
     deleteThought(req, res) {
         Thought.findOneAndDelete({ _id: req.params.thoughtId })
-          //then((user) =>
+            .then((thought) => {
+
+                User.findOneAndUpdate(
+
+                    { username: thought.username },
+                    { $pull: { thoughts: ObjectId(thought._id) } },
+                    { new: true }
+                  )
+                  .then((user) =>
+                        res.status()
+
+      )
+
+            })
             //!user
              // ? res.status(404).json({ message: 'No thought with that ID' })
             //  : Application.deleteMany({ _id: { $in: user.applications } })
