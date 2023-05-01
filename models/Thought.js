@@ -1,6 +1,14 @@
 const { Schema, model } = require('mongoose');
 const reactionSchema = require('./Reaction');
+let formatDate = (date) => {
+  const newDate = new Date(date)
+  const month = newDate.toLocaleString('default', { month: 'short' });
+  const day = newDate.getDate();
+  const year = newDate.getFullYear();
+  const time = newDate.toLocaleTimeString();
 
+  return `${month} ${day}th, ${year} at ${time}`
+}
 
 // Schema to create User model
 const thoughtSchema = new Schema(
@@ -13,7 +21,8 @@ const thoughtSchema = new Schema(
       },
 
     createdAt: {
-        type: Date, default: Date.now 
+        type: Date, default: Date.now,
+        get: formatDate 
 
       },
 
@@ -36,6 +45,8 @@ thoughtSchema
   .get(function () {
     return this.reactions.length;
   });
+
+
 
 // Initialize our Thought model
 const Thought = model('thought', thoughtSchema);
