@@ -67,7 +67,7 @@ module.exports = {
       updateThought(req, res) {
     
         Thought.findOneAndUpdate({ _id: req.params.thoughtId }, req.body )
-        .then(() => res.json({ message: 'User and associated apps updated!' }))
+        .then(() => res.json({ message: 'User and associated thoughts updated!' }))
         .catch((err) => res.status(500).json(err));
       },
 
@@ -81,7 +81,7 @@ module.exports = {
           !thought
             ? res
                 .status(404)
-                .json({ message: 'No student found with that ID :(' })
+                .json({ message: 'No user found with that ID :(' })
             : res.json(thought)
         )
         .catch((err) => res.status(500).json(err));

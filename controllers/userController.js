@@ -41,7 +41,7 @@ module.exports = {
   updateUser(req, res) {
     
     User.findOneAndUpdate({ _id: req.params.userId }, req.body )
-    .then(() => res.json({ message: 'User and associated apps updated!' }))
+    .then(() => res.json({ message: 'User and associated thoughts updated!' }))
     .catch((err) => res.status(500).json(err));
   },
 
@@ -64,7 +64,7 @@ module.exports = {
         !friend
          ? res
              .status(404)
-             .json({ message: 'No student found with that ID :(' })
+             .json({ message: 'No user found with that ID :(' })
          : res.json(friend)
        // console.log(friend)
       )
